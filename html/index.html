@@ -4,12 +4,22 @@
 <textarea id="inputBox" rows="4" cols="50" placeholder="Write review here..."></textarea>
 <button onclick="analyseReview()">Submit</button>
 <h2>Response:</h2>
-<pre id="outputBox">
-</pre>
+<textarea id="outputBox" rows="1" cols="50" readonly></textarea>
+
 
 
 <script>
-<!-- Some script connecting to ML -->
+function analyseReview(){
+    userReview = document.getElementById("inputBox").value
+    fetch("http://app-service:8082/get-prediction", {
+        "review": userReview
+    })
+    .then(response => response.json())
+    .then(data => {
+        document.getElementById("outputBox").value=data.output
+    })
+    
+}
 </script>
 
 </body>
