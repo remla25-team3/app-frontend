@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.2.0](https://github.com/remla25-team3/app-frontend/compare/v1.1.0...v1.2.0) (2025-05-11)
+
+
+### Features
+
+* add login step for GitHub Container Registry in build workflow ([462028e](https://github.com/remla25-team3/app-frontend/commit/462028e540064d38c6cc9196dbac794241f93968))
+
 ## [1.1.0](https://github.com/remla25-team3/app-frontend/compare/v1.0.0...v1.1.0) (2025-05-11)
 
 
