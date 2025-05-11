@@ -1,8 +1,5 @@
 name: Build and Push Container
 on:
-  push:
-    branches:
-      - main
   pull_request:
     branches: 
       - main
