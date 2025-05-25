@@ -29,10 +29,16 @@ function analyseReview(){
     })
 };
 function yesClick(){
-  alert("Yes");
+    fetch("http://app-service:8082/update-feedback", {
+        "satisfied": true
+    })
+    alert("Thanks for submitting feedback")
 };
 function noClick(){
-  alert("No");
+    fetch("http://app-service:8082/update-feedback", {
+        "satisfied": false
+    })
+    alert("Thanks for submitting feedback")
 };
 
 
