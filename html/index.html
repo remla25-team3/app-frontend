@@ -11,6 +11,9 @@
 <button onclick="analyseReview()">Submit</button>
 <h2>Response:</h2>
 <textarea id="outputBox" rows="1" cols="50" readonly></textarea>
+<h2>Emotion correct?</h2>
+<button onclick="yesClick()">Yes</button>
+<button onclick="noClick()">No</button>
 
 
 
@@ -24,8 +27,21 @@ function analyseReview(){
     .then(data => {
         document.getElementById("outputBox").value=data.output
     })
-    
-}
+};
+function yesClick(){
+    fetch("http://app-service:8082/update-feedback", {
+        "satisfied": true
+    })
+    alert("Thanks for submitting feedback")
+};
+function noClick(){
+    fetch("http://app-service:8082/update-feedback", {
+        "satisfied": false
+    })
+    alert("Thanks for submitting feedback")
+};
+
+
 </script>
 
 </body>
