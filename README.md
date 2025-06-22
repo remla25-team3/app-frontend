@@ -36,4 +36,6 @@ This frontend is designed as a pure client-side application and acts as the pres
 -   **Vanilla JavaScript**: For all client-side logic, including API calls (using `fetch`) and dynamic DOM manipulation.
 -   **Nginx**: The `Dockerfile` in this repository uses a lightweight Nginx image to serve the `index.html` file as a static asset.
 
+---
+
 > *Note: The visual design and CSS for the user interface were developed with assistance from Google's Gemini.*
