@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Restaurant Review Sentiment Analysis</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
+    <style> /*frontend head was created with the help of Gemini AI*/
+        :root {
+            --primary-blue: #007bff; --primary-blue-dark: #0056b3; --light-gray: #f8f9fa;
+            --dark-gray: #343a40; --text-gray: #6c757d; --positive-bg: #d1e7dd;
+            --positive-color: #0f5132; --negative-bg: #f8d7da; --negative-color: #842029;
+            --white: #ffffff; --border-color: #dee2e6;
+        }
+        body { margin: 0; font-family: 'Poppins', sans-serif; background-color: var(--light-gray); color: var(--dark-gray); display: flex; flex-direction: column; justify-content: center; align-items: center; min-height: 100vh; }
+        .feedback-container { width: 100%; max-width: 500px; background: var(--white); border-radius: 12px; box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1); overflow: hidden; margin: 20px; }
+        .feedback-header { background-color: var(--primary-blue); color: var(--white); padding: 25px 30px; text-align: center; }
+        .feedback-header h1 { margin: 0; font-size: 1.5rem; font-weight: 600; }
+        .feedback-header p { margin: 5px 0 0; font-weight: 400; opacity: 0.9; }
+        .feedback-body { padding: 30px; }
+        .form-group { margin-bottom: 20px; }
+        .form-group label { display: block; margin-bottom: 8px; font-weight: 500; font-size: 1rem; }
+        #review-text { width: 100%; height: 100px; padding: 12px; box-sizing: border-box; border-radius: 8px; border: 1px solid var(--border-color); font-family: 'Poppins', sans-serif; font-size: 0.95rem; resize: vertical; transition: border-color 0.2s; }
+        #review-text:focus { outline: none; border-color: var(--primary-blue); }
+        button#submit-btn { width: 100%; padding: 15px; border: none; border-radius: 8px; background-color: var(--primary-blue); color: var(--white); font-size: 1rem; font-weight: 600; cursor: pointer; transition: background-color 0.2s; }
+        button#submit-btn:hover { background-color: var(--primary-blue-dark); }
+        #result-area { margin-top: 25px; padding: 20px; border-radius: 8px; text-align: center; display: none; }
+        #result-area.positive { background-color: var(--positive-bg); color: var(--positive-color); }
+        #result-area.negative { background-color: var(--negative-bg); color: var(--negative-color); }
+        #result-area h3 { margin: 0 0 5px; font-size: 1.2rem; }
+        #result-area p { margin: 0; font-weight: 500; }
+        #feedback-options { margin-top: 20px; text-align: center; display: none; }
+        #feedback-options p { font-size: 0.95rem; color: var(--text-gray); margin-bottom: 15px; }
+        .feedback-buttons button { padding: 10px 20px; margin: 0 5px; border: 1px solid var(--border-color); border-radius: 20px; background-color: var(--white); cursor: pointer; transition: all 0.2s; font-weight: 500; }
+        .feedback-buttons button:hover { background-color: var(--light-gray); border-color: #b0b0b0; }
+        .footer { margin-top: 20px; text-align: center; font-size: 0.8rem; color: var(--text-gray); }
+        .footer span { margin: 0 8px; white-space: nowrap; }
+    </style>
+</head>
+<body>
+    <div class="feedback-container">
+        <div class="feedback-header">
+            <h1>Sentiment Analysis</h1>
+            <p>Enter a restaurant review to find out its sentiment.</p>
+        </div>
+        <div class="feedback-body">
+            <div class="form-group">
+                <label for="review-text">Your Review</label>
+                <textarea id="review-text" placeholder="e.g., The food was great!"></textarea>
+            </div>
+            <button id="submit-btn" onclick="getPrediction()">Analyze Sentiment</button>
+            <div id="result-area">
+                <h3 id="result-sentiment"></h3>
+                <p id="result-confidence"></p>
+            </div>
+            <div id="feedback-options">
+                <p>Was this prediction correct?</p>
+                <div class="feedback-buttons">
+                    <button onclick="updatePrediction('positive')">👍 Yes</button>
+                    <button onclick="updatePrediction('negative')">👎 No</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="footer" id="version-info">
+        <span id="app-service-version">App Service: fetching...</span>
+        <span id="lib-version">Lib Version: fetching...</span>
+        <span id="model-service-version">Model Service: fetching...</span>
+    </div>
+<script>
+    let lastReview = "";
+    let lastModelSentiment = "";
+
+    async function getVersions() {
+        try {
+            const response = await fetch('/version');
+            if (!response.ok) throw new Error('Network response was not ok');
+            const versions = await response.json();
+            document.getElementById('app-service-version').innerText = `App Service: ${versions.app_service_version || 'unknown'}`;
+            document.getElementById('lib-version').innerText = `Lib Version: ${versions.lib_version || 'unknown'}`;
+            document.getElementById('model-service-version').innerText = `Model Service: ${versions.model_service_version || 'unknown'}`;
+        } catch (error) {
+            console.error('Error fetching versions:', error);
+            document.getElementById('app-service-version').innerText = 'App Service: error';
+            document.getElementById('lib-version').innerText = 'Lib Version: error';
+            document.getElementById('model-service-version').innerText = 'Model Service: error';
+        }
+    }
+    window.addEventListener('DOMContentLoaded', getVersions);
+
+    function getPrediction() {
+        const reviewText = document.getElementById('review-text').value;
+        if (!reviewText) { alert('Please enter a review.'); return; }
+        lastReview = reviewText;
+
+        fetch('/predict', {
+            method: 'POST',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify({ review: reviewText }),
+        })
+        .then(response => {
+            if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
+            return response.json(); 
+        })
+        .then(data => {
+            const resultArea = document.getElementById('result-area');
+            const feedbackOptions = document.getElementById('feedback-options');
+            const sentiment = data.sentiment;
+            lastModelSentiment = sentiment;
+
+            const confidence = data.confidence_score ? `Confidence: ${(data.confidence_score * 100).toFixed(1)}%` : '';
+            document.getElementById('result-sentiment').innerText = `Prediction: ${sentiment.charAt(0).toUpperCase() + sentiment.slice(1)}`;
+            document.getElementById('result-confidence').innerText = confidence;
+            resultArea.className = `result ${sentiment}`;
+            resultArea.style.display = 'block';
+            feedbackOptions.style.display = 'block';
+        })
+        .catch(error => { /* ... error handling ... */ });
+    }
+
+    function updatePrediction(userCorrectedSentiment) {
+        if (!lastReview || !lastModelSentiment) {
+            alert("Cannot submit feedback without a prior prediction."); return;
+        }
+
+        const payload = {
+            review: lastReview,
+            model_sentiment: lastModelSentiment,
+            user_sentiment: userCorrectedSentiment 
+        };
+
+        fetch('/update-prediction', {
+            method: 'POST',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify(payload),
+        })
+        .then(response => response.json())
+        .then(data => {
+            alert(data.status || 'Feedback submitted successfully!');
+            document.getElementById('feedback-options').style.display = 'none';
+        })
+        .catch(error => { /* ... error handling ... */ });
+    }
+</script>
+</body>
+</html>
