@@ -1,5 +1,13 @@
 # Changelog
 
+## [1.3.0](https://github.com/remla25-team3/app-frontend/compare/v1.2.0...v1.3.0) (2025-06-22)
+
+
+### Features
+
+* added buttons ([#9](https://github.com/remla25-team3/app-frontend/issues/9)) ([cc73ff2](https://github.com/remla25-team3/app-frontend/commit/cc73ff2b2e97083e3683c7a7dba5dffbf76cf3b7))
+* Improved UI and adjusted to latest version of services ([#11](https://github.com/remla25-team3/app-frontend/issues/11)) ([aa6d157](https://github.com/remla25-team3/app-frontend/commit/aa6d1578a9810c4a9c4c1655ff9a170dc69bb98f))
+
 ## [1.2.0](https://github.com/remla25-team3/app-frontend/compare/v1.1.0...v1.2.0) (2025-05-18)
 
 
