@@ -74,7 +74,7 @@
 
     async function getVersions() {
         try {
-            const response = await fetch('/version');
+            const response = await fetch('/api/version');
             if (!response.ok) throw new Error('Network response was not ok');
             const versions = await response.json();
             document.getElementById('app-service-version').innerText = `App Service: ${versions.app_service_version || 'unknown'}`;
@@ -94,7 +94,7 @@
         if (!reviewText) { alert('Please enter a review.'); return; }
         lastReview = reviewText;
 
-        fetch('/predict', {
+        fetch('/api/predict', {
             method: 'POST',
             headers: {'Content-Type': 'application/json'},
             body: JSON.stringify({ review: reviewText }),
@@ -130,7 +130,7 @@
             user_sentiment: userCorrectedSentiment 
         };
 
-        fetch('/update-prediction', {
+        fetch('/api/update-prediction', {
             method: 'POST',
             headers: {'Content-Type': 'application/json'},
             body: JSON.stringify(payload),
