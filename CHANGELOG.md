@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.3.2](https://github.com/remla25-team3/app-frontend/compare/v1.3.1...v1.3.2) (2025-06-23)
+
+
+### Bug Fixes
+
+* Fix api ([#16](https://github.com/remla25-team3/app-frontend/issues/16)) ([3fce4d4](https://github.com/remla25-team3/app-frontend/commit/3fce4d46b4aca775be908ece48c8a2207d4ff18b))
+
 ## [1.3.1](https://github.com/remla25-team3/app-frontend/compare/v1.3.0...v1.3.1) (2025-06-22)
 
 
