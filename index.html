@@ -53,6 +53,13 @@
                 <h3 id="result-sentiment"></h3>
                 <p id="result-confidence"></p>
             </div>
+            <div id="feedback-options">
+                <p>Was this prediction correct?</p>
+                <div class="feedback-buttons">
+                    <button onclick="updatePrediction('positive')">👍 Yes</button>
+                    <button onclick="updatePrediction('negative')">👎 No</button>
+                </div>
+            </div>
             <button id="submit-btn" onclick="getPrediction()">Analyze Sentiment</button>
         </div>
     </div>
@@ -60,13 +67,6 @@
         <span id="app-service-version">App Service: fetching...</span>
         <span id="lib-version">Lib Version: fetching...</span>
         <span id="model-service-version">Model Service: fetching...</span>
-    </div>
-    <div id="feedback-options">
-        <p>Was this prediction correct?</p>
-        <div class="feedback-buttons">
-            <button onclick="updatePrediction('positive')">Yes</button>
-            <button onclick="updatePrediction('negative')">No</button>
-        </div>
     </div>
 <script>
     let lastReview = "";
