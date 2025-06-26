@@ -49,7 +49,6 @@
                 <label for="review-text">Your Review</label>
                 <textarea id="review-text" placeholder="e.g., The food was great!"></textarea>
             </div>
-            <button id="submit-btn" onclick="getPrediction()">Analyze Sentiment</button>
             <div id="result-area">
                 <h3 id="result-sentiment"></h3>
                 <p id="result-confidence"></p>
@@ -62,6 +61,7 @@
                 </div>
             </div>
         </div>
+        <button id="submit-btn" onclick="getPrediction()">Analyze Sentiment</button>
     </div>
     <div class="footer" id="version-info">
         <span id="app-service-version">App Service: fetching...</span>
