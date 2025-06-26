@@ -16,6 +16,9 @@ on:
   release:
     types:
         - published
+  push:
+    tags:
+      - '*'
 
 permissions:
   contents: write
@@ -87,5 +90,16 @@ jobs:
             platforms: linux/amd64,linux/arm64
             push: true
             tags: ghcr.io/${{ github.repository }}:${{ github.event.release.tag_name }}
+            cache-from: type=registry,ref=ghcr.io/${{ github.repository }}:buildcache
+            cache-to: type=registry,ref=ghcr.io/${{ github.repository }}:buildcache,mode=max
+
+        - name: Build and push Docker image on tag push
+          if: github.event_name == 'push'
+          uses: docker/build-push-action@v6
+          with:
+            context: .
+            platforms: linux/amd64,linux/arm64
+            push: true
+            tags: ghcr.io/${{ github.repository }}:${{ github.ref_name }}
             cache-from: type=registry,ref=ghcr.io/${{ github.repository }}:buildcache
             cache-to: type=registry,ref=ghcr.io/${{ github.repository }}:buildcache,mode=max
