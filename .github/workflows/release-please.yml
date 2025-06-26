@@ -43,7 +43,7 @@ jobs:
     
         - name: Canary Release and Docker Build
           run: |
-            git pull
+            git fetch --tags
             # Extract current version
             CURRENT_VERSION=$(cat .release-please-manifest.json | jq -r '."."')
           
