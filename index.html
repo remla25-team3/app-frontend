@@ -69,6 +69,10 @@
         <span id="model-service-version">Model Service: fetching...</span>
     </div>
 <script>
+    // Placeholder for frontend version, to be replaced during build
+    window.APP_FRONTEND_VERSION = '__APP_FRONTEND_VERSION__';
+</script>
+<script>
     let lastReview = "";
     let lastModelSentiment = "";
 
@@ -96,7 +100,10 @@
 
         fetch('/api/predict', {
             method: 'POST',
-            headers: {'Content-Type': 'application/json'},
+            headers: {
+                'Content-Type': 'application/json',
+                'X-App-Frontend-Version': window.APP_FRONTEND_VERSION
+            },
             body: JSON.stringify({ review: reviewText }),
         })
         .then(response => {
@@ -132,7 +139,10 @@
 
         fetch('/api/update-prediction', {
             method: 'POST',
-            headers: {'Content-Type': 'application/json'},
+            headers: {
+                'Content-Type': 'application/json',
+                'X-App-Frontend-Version': window.APP_FRONTEND_VERSION
+            },
             body: JSON.stringify(payload),
         })
         .then(response => response.json())
