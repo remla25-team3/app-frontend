@@ -1,5 +1,14 @@
 # Changelog
 
+## [1.5.1](https://github.com/remla25-team3/app-frontend/compare/v1.5.0...v1.5.1) (2025-06-26)
+
+
+### Bug Fixes
+
+* add git pull command before extracting current version in canary release step ([50ce2c8](https://github.com/remla25-team3/app-frontend/commit/50ce2c8fca4afc33b501559aab30cebbf78c598c))
+* correct canary tag format in release workflow ([4b184c3](https://github.com/remla25-team3/app-frontend/commit/4b184c3a20a7927ccae4a85fda1f5bddbceacc4d))
+* replace git pull with git fetch --tags in canary release step ([359a9a0](https://github.com/remla25-team3/app-frontend/commit/359a9a0f3201a6b0467dcbb0f16d18f19c0e9bf4))
+
 ## [1.5.0](https://github.com/remla25-team3/app-frontend/compare/v1.4.0...v1.5.0) (2025-06-26)
 
 
