@@ -30,20 +30,23 @@ jobs:
         - name: Checkout code
           uses: actions/checkout@v4
 
-        - name: Get frontend version for injection
-          id: get_frontend_version
+
+        - name: Set frontend version and update index.html
           run: |
             if [[ "${{ github.event_name }}" == "release" ]]; then
-              echo "APP_VERSION=${{ github.event.release.tag_name }}" >> "$GITHUB_OUTPUT"
+              TAG_NAME="${{ github.event.release.tag_name }}"
+              if [[ "$TAG_NAME" == *-canary ]]; then
+                FRONTEND_VERSION="v2"
+              else
+                FRONTEND_VERSION="v1"
+              fi
             elif [[ "${{ github.event_name }}" == "workflow_dispatch" ]]; then
-              echo "APP_VERSION=${{ github.event.inputs.version }}" >> "$GITHUB_OUTPUT"
+              FRONTEND_VERSION="${{ github.event.inputs.version }}"
             else
-              echo "APP_VERSION=${{ github.sha }}" >> "$GITHUB_OUTPUT"
+              FRONTEND_VERSION="${{ github.sha }}"
             fi
-
-        - name: Inject frontend version into index.html
-          run: |
-            sed -i "s|__APP_FRONTEND_VERSION__|${{ steps.get_frontend_version.outputs.APP_VERSION }}|g" index.html
+            echo "Setting frontend version to: $FRONTEND_VERSION"
+            sed -i "s|__APP_FRONTEND_VERSION__|$FRONTEND_VERSION|g" index.html
 
         - name: 'Login to GitHub Container Registry'
           uses: docker/login-action@v3
