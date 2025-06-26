@@ -1,5 +1,17 @@
 # Changelog
 
+## [1.5.0](https://github.com/remla25-team3/app-frontend/compare/v1.4.0...v1.5.0) (2025-06-26)
+
+
+### Features
+
+* add support for canary releases and update build triggers in workflows ([44ddfd2](https://github.com/remla25-team3/app-frontend/commit/44ddfd245286328391a4e03fac15e0dbdab35c88))
+
+
+### Bug Fixes
+
+* improve logging for canary release process ([aca8e4d](https://github.com/remla25-team3/app-frontend/commit/aca8e4d7e87b232e1725ac8a5e083083526cfe7b))
+
 ## [1.4.0](https://github.com/remla25-team3/app-frontend/compare/v1.3.3...v1.4.0) (2025-06-26)
 
 
