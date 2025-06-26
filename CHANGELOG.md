@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.4.0](https://github.com/remla25-team3/app-frontend/compare/v1.3.3...v1.4.0) (2025-06-26)
+
+
+### Features
+
+* revert release to only have stable releases ([ea35a42](https://github.com/remla25-team3/app-frontend/commit/ea35a4223b4d84969ad3c82ec32b5e9f96aa599c))
+
 ## [1.3.2](https://github.com/remla25-team3/app-frontend/compare/v1.3.1...v1.3.2) (2025-06-23)
 
 
